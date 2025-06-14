@@ -1,14 +1,18 @@
-import { createApp } from "./infrastructure/express/app.js";
 import dotenv from 'dotenv';
+import { createApp } from "./infrastructure/express/app.js";
+import https from "https";
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
-console.log('Variáveis de ambiente:', {
-  DB: process.env.DB,
-  DB_USER: process.env.DB_USER,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_HOST: process.env.DB_HOST
-});
+const certPath = path.resolve("certs/cert.crt");
+const keyPath = path.resolve("certs/cert.key");
+
+const options = {
+  key: fs.readFileSync(keyPath),
+  cert: fs.readFileSync(certPath)
+};
 
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
@@ -21,10 +25,10 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 try {
-  createApp().listen(3000, () => {
-    console.log("Server is running on http://localhost:3000");
+  https.createServer(options, createApp()).listen(process.env.PORT || 5000, () => {
+    console.log("HTTPS server is running on https://localhost:" + (process.env.PORT || 5000));
   });
 } catch (error) {
-  console.error("Error starting the server:", error);
+  console.error("Error starting the HTTPS server:", error);
   process.exit(1);
 }
