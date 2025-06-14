@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "@infra/databases/sequelize/index";
+import { sequelize } from "@infra";
 
 export class TestModel extends Model {
   public id!: number;
