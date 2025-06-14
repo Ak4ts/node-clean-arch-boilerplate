@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { CreateTestUseCase } from '../../../usecases/TestCase/test-use-case.js';
+import { Request, Response } from "express";
+import { CreateTestUseCase } from "../../../usecases/TestCase/test-use-case.js";
 
 export class TestController {
   constructor(private readonly createTestUseCase: CreateTestUseCase) {}
@@ -11,7 +11,7 @@ export class TestController {
       res.status(201).json(test);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error creating test' });
+      res.status(500).json({ message: "Error creating test" });
     }
   }
 
@@ -26,7 +26,7 @@ export class TestController {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error getting test' });
+      res.status(500).json({ message: "Error getting test" });
     }
   }
 }

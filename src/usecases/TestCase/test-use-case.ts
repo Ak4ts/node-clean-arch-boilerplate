@@ -1,5 +1,5 @@
-import { Test } from '../../domain/models/test-model.js';
-import { TestService } from '../../domain/services/test-service.js';
+import { Test } from "../../domain/models/test-model.js";
+import { TestService } from "../../domain/services/test-service.js";
 
 export class CreateTestUseCase {
   constructor(private readonly testService: TestService) {}
@@ -12,6 +12,6 @@ export class CreateTestUseCase {
       updatedAt: new Date(),
     };
     const createdTest = await this.testService.createTest(test);
-    return createdTest ;
+    return createdTest;
   }
 }

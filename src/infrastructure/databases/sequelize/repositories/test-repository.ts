@@ -1,7 +1,7 @@
-import { Op } from 'sequelize';
-import { Test } from '../../../../domain/models/test-model.js';
-import { TestRepository } from '../../../../domain/repositories/test-repository.js';
-import { TestModel } from '../models/test-model.js';
+import { Op } from "sequelize";
+import { Test } from "../../../../domain/models/test-model.js";
+import { TestRepository } from "../../../../domain/repositories/test-repository.js";
+import { TestModel } from "../models/test-model.js";
 
 export class TestRepositoryImpl implements TestRepository {
   async create(test: Test): Promise<Test> {

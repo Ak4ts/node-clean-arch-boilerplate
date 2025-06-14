@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --loader ts-node/esm src/server.ts",
     "migrate": "sequelize db:migrate --config config/config.cjs",
-    "generate-migration": "npx sequelize-cli migration:generate --name"
+    "generate-migration": "npx sequelize-cli migration:generate --name",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "Ak4ts",
@@ -24,6 +26,12 @@
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
     "@types/express": "^5.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "prettier": "^3.5.3",
     "sequelize-cli": "^6.6.3",
     "ts-node": "^10.9.2"
   }
