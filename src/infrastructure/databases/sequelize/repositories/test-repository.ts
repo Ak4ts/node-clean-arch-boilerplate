@@ -12,11 +12,11 @@ export class TestRepositoryImpl implements TestRepository {
     };
   }
 
-  async getByName(email: string): Promise<Test | null> {
+  async getByName(name: string): Promise<Test | null> {
     const testModel = await TestModel.findOne({
       where: {
-        email: {
-          [Op.eq]: email,
+        name: {
+          [Op.eq]: name,
         },
       },
     });
