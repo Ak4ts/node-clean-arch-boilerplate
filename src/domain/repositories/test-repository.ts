@@ -1,4 +1,4 @@
-import { Test } from "../models/test-model.js";
+import { Test } from "@domain/models/test-model";
 
 export interface TestRepository {
   create(user: Test): Promise<Test>;

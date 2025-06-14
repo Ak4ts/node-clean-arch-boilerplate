@@ -14,3 +14,5 @@ const sequelize = new Sequelize(
 );
 
 export { sequelize };
+export * from "./models";
+export * from "./repositories";

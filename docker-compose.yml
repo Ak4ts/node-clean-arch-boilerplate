@@ -15,7 +15,7 @@ services:
       - DB_NAME=playground
     depends_on:
       - db
-    command: sh -c "npx sequelize-cli db:migrate && npm run start"
+    command: sh -c "npx sequelize-cli db:migrate --config config/config.cjs && npm run build && npm start"
   db:
     image: mysql:8.4
     restart: always

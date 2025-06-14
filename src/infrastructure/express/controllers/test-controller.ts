@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateTestUseCase } from "../../../usecases/TestCase/test-use-case.js";
+import { CreateTestUseCase } from "@usecases";
 
 export class TestController {
   constructor(private readonly createTestUseCase: CreateTestUseCase) {}

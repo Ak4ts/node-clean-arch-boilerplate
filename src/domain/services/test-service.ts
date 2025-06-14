@@ -1,5 +1,5 @@
-import { Test } from "../models/test-model";
-import { TestRepository } from "../repositories/test-repository";
+import { Test } from "@domain/models/test-model";
+import { TestRepository } from "@domain/repositories/test-repository";
 
 export class TestService {
   constructor(private readonly testRepository: TestRepository) {}

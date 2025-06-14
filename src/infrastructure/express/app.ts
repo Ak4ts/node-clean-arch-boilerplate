@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
-import { TestRepositoryImpl } from "../databases/sequelize/repositories/test-repository.js";
-import { TestService } from "../../domain/services/test-service.js";
-import { CreateTestUseCase } from "../../usecases/TestCase/test-use-case.js";
-import { TestController } from "./controllers/test-controller.js";
+import { TestRepositoryImpl } from "@infra";
+import { TestService } from "@domain/services/test-service";
+import { CreateTestUseCase } from "@usecases";
+import { TestController } from "@infra";
 
 export function createApp() {
   dotenv.config();

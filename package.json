@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --loader ts-node/esm src/server.ts",
+    "dev": "ts-node -r tsconfig-paths/register src/server.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/server.js",
     "migrate": "sequelize db:migrate --config config/config.cjs",
     "generate-migration": "npx sequelize-cli migration:generate --name",
     "lint": "eslint . --ext .ts",
@@ -14,7 +16,6 @@
   "keywords": [],
   "author": "Ak4ts",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "body-parser": "^2.2.0",
     "dotenv": "^16.5.0",
@@ -33,6 +34,8 @@
     "eslint-plugin-prettier": "^5.4.1",
     "prettier": "^3.5.3",
     "sequelize-cli": "^6.6.3",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsc-alias": "^1.0.0"
   }
 }

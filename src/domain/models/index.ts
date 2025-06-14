@@ -1,3 +1,3 @@
-import { Test } from "./test-model.js";
+import { Test } from "@domain/models/test-model";
 
 export { Test };
