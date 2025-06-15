@@ -104,6 +104,26 @@ npm run generate-migration -- nome-da-migracao
 }
 ```
 
+## Segurança: Senha de Usuário Encriptada
+
+Ao criar ou atualizar um usuário, a senha é automaticamente encriptada usando bcrypt antes de ser salva no banco de dados.
+
+- O hash é feito via hooks do Sequelize (`beforeCreate` e `beforeUpdate`).
+- O campo `password` nunca é salvo em texto puro.
+- Para autenticação, compare a senha informada com o hash usando `bcrypt.compare`.
+
+**Exemplo de uso no service:**
+
+```typescript
+import bcrypt from "bcrypt";
+// ...existing code...
+const isValid = await bcrypt.compare(senhaInformada, user.password);
+if (!isValid) throw new UnauthorizedError("Senha inválida");
+// ...existing code...
+```
+
+> **Atenção:** Nunca retorne o campo `password` em respostas de API.
+
 ## Diferenciais
 
 - **Aliases globais**: Imports limpos e sem caminhos relativos complexos.

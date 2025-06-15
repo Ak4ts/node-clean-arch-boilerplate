@@ -1,4 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from "sequelize";
+import bcrypt from "bcrypt";
 
 export interface UserAttributes {
   id: number;
@@ -62,6 +63,18 @@ export function initUserModel(sequelize: Sequelize): typeof UserModel {
       sequelize,
       tableName: "users",
       modelName: "User",
+      hooks: {
+        beforeCreate: async (user: UserModel) => {
+          if (user.password) {
+            user.password = await bcrypt.hash(user.password, 10);
+          }
+        },
+        beforeUpdate: async (user: UserModel) => {
+          if (user.changed("password")) {
+            user.password = await bcrypt.hash(user.password, 10);
+          }
+        },
+      },
     },
   );
   return UserModel;
