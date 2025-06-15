@@ -1,3 +1,4 @@
+import { NotFoundError } from "@infra/express/middlewares/error-handler";
 import { Request, Response } from "express";
 import { CreateTestUseCase } from "@usecases";
 
@@ -10,6 +11,12 @@ export class TestController {
       const test = await this.createTestUseCase.execute(name);
       res.status(201).json(test);
     } catch (error) {
+      if (error instanceof Error) {
+        if (error.name === "BadRequestError") {
+          res.status(400).json({ message: error.message });
+          return;
+        }
+      }
       console.error(error);
       res.status(500).json({ message: "Error creating test" });
     }
@@ -20,11 +27,15 @@ export class TestController {
       const { id } = req.params;
       const test = await this.createTestUseCase.execute(id);
       if (!test) {
-        res.status(404).json({ message: `Test with ID ${id} not found` });
+        throw new NotFoundError(`Test with ID ${id} not found`);
       } else {
         res.status(200).json(test);
       }
     } catch (error) {
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ message: error.message });
+        return;
+      }
       console.error(error);
       res.status(500).json({ message: "Error getting test" });
     }
