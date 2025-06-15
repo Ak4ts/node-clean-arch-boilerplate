@@ -124,6 +124,51 @@ if (!isValid) throw new UnauthorizedError("Senha inválida");
 
 > **Atenção:** Nunca retorne o campo `password` em respostas de API.
 
+## Autenticação de Usuário (Login)
+
+O template já possui fluxo de autenticação seguro para usuários:
+
+- **Endpoint:** `POST /login`
+- **Body:**
+  ```json
+  {
+    "email": "usuario@email.com",
+    "password": "senha"
+  }
+  ```
+- **Resposta de sucesso:**
+  ```json
+  {
+    "id": 1,
+    "name": "Usuário",
+    "email": "usuario@email.com",
+    "createdAt": "...",
+    "updatedAt": "..."
+  }
+  ```
+- **Resposta de erro:**
+  - 401:
+    ```json
+    { "message": "Usuário ou senha inválidos" }
+    ```
+
+A senha é comparada de forma encriptada usando bcrypt e nunca é retornada na resposta.
+
+---
+
+## Como criar um módulo de usuário
+
+1. Crie o model Sequelize e o domínio (`UserModel`, `User`)
+2. Implemente o repositório (`UserRepositoryImpl`)
+3. Implemente o service (`UserService`) com métodos de criação e login (compara senha encriptada)
+4. Crie os casos de uso (`CreateUserUseCase`, `LoginUserUseCase`)
+5. Implemente o controller (`UserController`) com métodos `createUser` e `login`
+6. Exporte as rotas no Express
+
+Veja exemplos no código e walkthrough acima.
+
+---
+
 ## Diferenciais
 
 - **Aliases globais**: Imports limpos e sem caminhos relativos complexos.
