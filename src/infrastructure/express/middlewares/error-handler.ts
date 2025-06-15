@@ -53,6 +53,7 @@ export function errorHandler(err: CustomError, req: Request, res: Response, _nex
     err instanceof NotFoundError ||
     err instanceof InternalServerError
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     status = (err as any).status;
     message = err.message;
   }
