@@ -16,7 +16,7 @@ export default class UserService {
 
   async login(email: string, password: string): Promise<User> {
     const user = await this.repository.getByEmail(email);
-    if (!user) {
+    if (!user || !user.password) {
       throw new UnauthorizedError("Usuário ou senha inválidos");
     }
     const isValid = await bcrypt.compare(password, user.password);

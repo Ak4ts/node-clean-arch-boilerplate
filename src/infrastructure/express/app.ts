@@ -17,6 +17,7 @@ export function createApp() {
   app.post("/tests", testController.createTest.bind(testController));
   app.get("/tests/:id", testController.getTestById.bind(testController));
   app.post("/users", userController.createUser.bind(userController));
+  app.post("/users/login", userController.login.bind(userController));
 
   app.use(errorHandler);
 

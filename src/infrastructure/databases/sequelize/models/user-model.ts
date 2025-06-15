@@ -2,27 +2,17 @@ import { DataTypes, Model, Optional, Sequelize } from "sequelize";
 import bcrypt from "bcrypt";
 
 export interface UserAttributes {
-  id: number;
+  id?: number;
   name: string;
   email: string;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
+  password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type UserCreationAttributes = Optional<UserAttributes, "id" | "createdAt" | "updatedAt">;
 
-export class UserModel
-  extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
-{
-  public id!: number;
-  public name!: string;
-  public email!: string;
-  public password!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-}
+export class UserModel extends Model<UserAttributes, UserCreationAttributes> {}
 
 export function initUserModel(sequelize: Sequelize): typeof UserModel {
   UserModel.init(
@@ -65,13 +55,18 @@ export function initUserModel(sequelize: Sequelize): typeof UserModel {
       modelName: "User",
       hooks: {
         beforeCreate: async (user: UserModel) => {
-          if (user.password) {
-            user.password = await bcrypt.hash(user.password, 10);
+          const password = user.getDataValue("password");
+          if (password) {
+            user.setDataValue("password", await bcrypt.hash(password, 10));
           }
         },
         beforeUpdate: async (user: UserModel) => {
-          if (user.changed("password")) {
-            user.password = await bcrypt.hash(user.password, 10);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if ((user as any).changed("password")) {
+            const password = user.getDataValue("password");
+            if (password) {
+              user.setDataValue("password", await bcrypt.hash(password, 10));
+            }
           }
         },
       },
