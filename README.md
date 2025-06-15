@@ -4,18 +4,19 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 
 ## Principais Funcionalidades
 
-- **Estrutura Clean Architecture**: Separação clara entre camadas de domínio, casos de uso, infraestrutura e interfaces.
-- **TypeScript**: Tipagem estática e moderna para maior robustez e produtividade.
-- **Aliases de Path**: Imports organizados usando `@domain`, `@infra` e `@usecases` para facilitar a manutenção e refatoração.
-- **Sequelize ORM**: Integração pronta para bancos relacionais (MySQL por padrão), com suporte a migrações e models.
-- **Migrations Automatizadas**: Migrações do banco de dados executadas automaticamente no Docker e via script.
-- **Docker & Docker Compose**: Ambiente pronto para desenvolvimento e produção, incluindo banco de dados MySQL e scripts de inicialização.
+- **Clean Architecture**: Separação clara entre domínio, casos de uso, infraestrutura e camada de entrada.
+- **TypeScript**: Tipagem estática e moderna.
+- **Aliases de Path**: Imports organizados usando `@domain`, `@infra`, `@usecases`, `@main`.
+- **Sequelize ORM**: Integração pronta para MySQL, com suporte a migrações e models.
+- **Migrations Automatizadas**: Migrações executadas automaticamente no Docker e via script.
+- **Docker & Docker Compose**: Ambiente pronto para dev e produção, incluindo banco MySQL e scripts de inicialização.
 - **HTTPS Ready**: Suporte nativo a HTTPS com certificados customizáveis.
-- **ESLint & Prettier**: Padrão de código consistente e automatizado, com integração para formatar ao salvar.
-- **EditorConfig**: Padronização de finais de linha, indentação e charset em todo o projeto.
-- **Scripts de build e produção**: Scripts prontos para build (`npm run build`) e execução do código compilado (`npm start`).
-- **Configuração por .env**: Variáveis de ambiente centralizadas para fácil customização.
-- **Index Pattern**: Cada pasta principal expõe seus módulos via `index.ts`, permitindo imports limpos e centralizados.
+- **Logger Winston**: Logging centralizado, com logs em arquivo e console.
+- **Middleware de Erro Robusto**: Tratamento customizado para status HTTP (200, 201, 400, 401, 404, 500) e logging de erros.
+- **ESLint, Prettier e EditorConfig**: Padronização de código garantida.
+- **Scripts de build, dev, lint, format, migrate**: Prontos para uso.
+- **Exemplo de controller, caso de uso e service**.
+- **.env.example**: Facilita o setup do ambiente.
 
 ## Estrutura de Pastas
 
@@ -24,13 +25,14 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 │   ├── domain/         # Entidades, repositórios e serviços de domínio
 │   ├── usecases/       # Casos de uso (application layer)
 │   ├── infrastructure/ # Implementações técnicas (DB, Express, etc)
+│   └── main/           # Bootstrap, composição e app Express
 │   └── server.ts       # Bootstrap do servidor
 ├── config/             # Configurações do Sequelize CLI
 ├── migrations/         # Migrações do banco de dados
 ├── certs/              # Certificados SSL para HTTPS
 ├── Dockerfile          # Build da aplicação
 ├── docker-compose.yml  # Orquestração de containers
-├── .env                # Variáveis de ambiente
+├── .env.example        # Exemplo de variáveis de ambiente
 ├── .editorconfig       # Padrão de editor
 ├── .eslintrc.json      # Configuração do ESLint
 ├── .prettierrc         # Configuração do Prettier
@@ -38,47 +40,85 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 
 ## Como usar
 
-### Desenvolvimento
+### 1. Instalação
 
 ```sh
 npm install
+```
+
+### 2. Ambiente de Desenvolvimento
+
+```sh
 npm run dev
 ```
 
-### Produção
+### 3. Build e Produção
 
 ```sh
 npm run build
 npm start
 ```
 
-### Docker
+### 4. Docker (dev ou produção)
 
 ```sh
 docker-compose up --build
 ```
 
-### Migrações
+### 5. Migrações
 
 ```sh
 npm run migrate
 ```
 
-### Gerar nova migração
+### 6. Gerar nova migração
 
 ```sh
 npm run generate-migration -- nome-da-migracao
 ```
 
-## Excepcionalidades e Diferenciais
+## Exemplo de Resposta de Erro
+
+```json
+{
+  "status": 400,
+  "message": "Test already exists with that email address"
+}
+```
+
+```json
+{
+  "status": 404,
+  "message": "Test with ID 123 not found"
+}
+```
+
+## Exemplo de Resposta de Sucesso
+
+```json
+{
+  "id": 1,
+  "name": "example",
+  "createdAt": "2025-06-15T12:00:00.000Z",
+  "updatedAt": "2025-06-15T12:00:00.000Z"
+}
+```
+
+## Diferenciais
 
 - **Aliases globais**: Imports limpos e sem caminhos relativos complexos.
-- **Compatível com Node.js 24+**: Pronto para ESM ou CommonJS, conforme necessidade.
-- **Padronização de código garantida**: ESLint, Prettier e EditorConfig integrados.
-- **HTTPS nativo**: Segurança pronta para produção.
-- **Migrações automáticas no Docker**: Banco sempre atualizado ao subir o ambiente.
-- **Arquitetura escalável**: Fácil de expandir para múltiplos domínios, casos de uso e integrações.
+- **Compatível com Node.js 24+**
+- **Padronização de código garantida**
+- **HTTPS nativo**
+- **Migrações automáticas no Docker**
+- **Arquitetura escalável**
+- **Logger robusto com Winston**
+- **Middleware de erro customizado**
 
 ---
 
-> **Nota:** Este template não inclui rotas de teste ou exemplos de domínio. Adicione suas entidades, casos de uso e controllers conforme a necessidade do seu projeto.
+> **Nota:** Este template não inclui rotas de domínio reais. Adicione suas entidades, casos de uso e controllers conforme a necessidade do seu projeto.
+
+## CHANGELOG
+
+Consulte o arquivo [CHANGELOG.md](./CHANGELOG.md) para ver as mudanças de cada versão.
