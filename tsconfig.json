@@ -16,9 +16,11 @@
       "@infra": ["infrastructure/index"],
       "@domain": ["domain/index"],
       "@usecases": ["usecases/index"],
+      "@main": ["main/index"],
       "@infra/*": ["infrastructure/*"],
       "@domain/*": ["domain/*"],
-      "@usecases/*": ["usecases/*"]
+      "@usecases/*": ["usecases/*"],
+      "@main/*": ["main/*"]
     }
   },
   "include": ["src/**/*.ts"],

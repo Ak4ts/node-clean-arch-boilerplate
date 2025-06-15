@@ -39,33 +39,39 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 ## Como usar
 
 ### Desenvolvimento
+
 ```sh
 npm install
 npm run dev
 ```
 
 ### Produção
+
 ```sh
 npm run build
 npm start
 ```
 
 ### Docker
+
 ```sh
 docker-compose up --build
 ```
 
 ### Migrações
+
 ```sh
 npm run migrate
 ```
 
 ### Gerar nova migração
+
 ```sh
 npm run generate-migration -- nome-da-migracao
 ```
 
 ## Excepcionalidades e Diferenciais
+
 - **Aliases globais**: Imports limpos e sem caminhos relativos complexos.
 - **Compatível com Node.js 24+**: Pronto para ESM ou CommonJS, conforme necessidade.
 - **Padronização de código garantida**: ESLint, Prettier e EditorConfig integrados.
