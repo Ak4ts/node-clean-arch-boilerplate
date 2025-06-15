@@ -1,2 +1,1 @@
-export * from "./express/app";
-export * from "./composer";
+export * from "./injection";

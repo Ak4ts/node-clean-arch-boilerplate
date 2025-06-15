@@ -1,5 +1,8 @@
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
+import { initTestModel } from "./models/test-model";
+import { initUserModel } from "./models/user-model";
+
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -13,6 +16,11 @@ const sequelize = new Sequelize(
   },
 );
 
+// Inicialização dos models
+initTestModel(sequelize);
+initUserModel(sequelize);
+
 export { sequelize };
+
 export * from "./models";
 export * from "./repositories";

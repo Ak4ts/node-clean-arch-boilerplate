@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { createApp } from "@main";
+import { createApp } from "@infra";
 import https from "https";
 import fs from "fs";
 import path from "path";

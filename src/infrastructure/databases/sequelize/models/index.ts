@@ -1,3 +1,2 @@
-import { TestModel } from "./test-model";
-
-export { TestModel };
+export * from "./user-model";
+export * from "./test-model";
