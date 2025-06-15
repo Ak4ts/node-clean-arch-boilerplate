@@ -5,6 +5,7 @@ import { TestModel } from "@infra";
 
 export class TestRepositoryImpl implements TestRepository {
   async create(test: Test): Promise<Test> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const testModel = await TestModel.create(test as any);
     return {
       id: testModel.id,
