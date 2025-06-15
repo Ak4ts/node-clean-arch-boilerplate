@@ -1,6 +1,6 @@
 # Node Clean Architecture Boilerplate
 
-Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Clean Architecture e suporte a HTTPS, pronto para ser usado como base para novos projetos escaláveis.
+Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Clean Architecture e suporte a HTTPS, pronto para ser usado como base para novos projetos escaláveis e facilmente extensível para suas próprias regras de negócio.
 
 ## Principais Funcionalidades
 
@@ -114,6 +114,176 @@ npm run generate-migration -- nome-da-migracao
 - **Arquitetura escalável**
 - **Logger robusto com Winston**
 - **Middleware de erro customizado**
+
+---
+
+## Walkthrough: Como criar sua API a partir deste template
+
+Este passo a passo mostra como você pode usar este template para criar rapidamente sua própria API, adicionando suas entidades e regras de negócio.
+
+### 1. Crie sua entidade de domínio
+
+Exemplo: `src/domain/models/produto-model.ts`
+
+```typescript
+export interface Produto {
+  id: number;
+  nome: string;
+  preco: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+```
+
+Adicione ao `index.ts` da pasta `models`:
+
+```typescript
+export * from "./produto-model";
+```
+
+### 2. Crie o repositório da entidade
+
+Exemplo: `src/domain/repositories/produto-repository.ts`
+
+```typescript
+import { Produto } from "@domain";
+
+export interface ProdutoRepository {
+  create(produto: Produto): Promise<Produto>;
+  getById(id: number): Promise<Produto | null>;
+}
+```
+
+Adicione ao `index.ts` da pasta `repositories`:
+
+```typescript
+export * from "./produto-repository";
+```
+
+### 3. Implemente o repositório na infraestrutura
+
+Exemplo: `src/infrastructure/databases/sequelize/repositories/produto-repository.ts`
+
+```typescript
+import { Produto } from "@domain";
+import { ProdutoRepository } from "@domain";
+import { ProdutoModel } from "@infra";
+
+export class ProdutoRepositoryImpl implements ProdutoRepository {
+  async create(produto: Produto): Promise<Produto> {
+    // ...implementação usando Sequelize
+  }
+  async getById(id: number): Promise<Produto | null> {
+    // ...implementação usando Sequelize
+  }
+}
+```
+
+### 4. Crie o service de domínio
+
+O service representa as regras de negócio da sua entidade e orquestra o uso dos repositórios.
+
+Exemplo: `src/domain/services/produto-service.ts`
+
+```typescript
+import { Produto } from "@domain";
+import { ProdutoRepository } from "@domain";
+
+export class ProdutoService {
+  constructor(private readonly produtoRepository: ProdutoRepository) {}
+
+  async criarProduto(produto: Produto): Promise<Produto> {
+    // Regras de negócio, validações, etc
+    return this.produtoRepository.create(produto);
+  }
+
+  async buscarProdutoPorId(id: number): Promise<Produto | null> {
+    return this.produtoRepository.getById(id);
+  }
+}
+```
+
+Adicione ao `index.ts` da pasta `services`:
+
+```typescript
+export * from "./produto-service";
+```
+
+### 5. Crie o caso de uso (use case)
+
+Exemplo: `src/usecases/ProdutoCase/create-produto-use-case.ts`
+
+```typescript
+import { Produto } from "@domain";
+import { ProdutoService } from "@domain";
+
+export class CreateProdutoUseCase {
+  constructor(private readonly produtoService: ProdutoService) {}
+  async execute(input: Produto): Promise<Produto> {
+    return this.produtoService.criarProduto(input);
+  }
+}
+```
+
+Adapte os próximos passos conforme necessário.
+
+### 6. Crie o controller
+
+Exemplo: `src/infrastructure/express/controllers/produto-controller.ts`
+
+```typescript
+import { Request, Response } from "express";
+import { CreateProdutoUseCase } from "@usecases";
+
+export class ProdutoController {
+  constructor(private readonly createProdutoUseCase: CreateProdutoUseCase) {}
+  async createProduto(req: Request, res: Response): Promise<void> {
+    const produto = await this.createProdutoUseCase.execute(req.body);
+    res.status(201).json(produto);
+  }
+}
+```
+
+### 7. Faça a composição das dependências
+
+Exemplo: `src/main/composer.ts`
+
+```typescript
+import { ProdutoRepositoryImpl } from "@infra";
+import { ProdutoService } from "@domain";
+import { CreateProdutoUseCase } from "@usecases";
+import { ProdutoController } from "@infra";
+
+export function makeProdutoController() {
+  const produtoRepository = new ProdutoRepositoryImpl();
+  const produtoService = new ProdutoService(produtoRepository);
+  const createProdutoUseCase = new CreateProdutoUseCase(produtoService);
+  return new ProdutoController(createProdutoUseCase);
+}
+```
+
+### 8. Adicione a rota no Express
+
+Exemplo: `src/main/express/app.ts`
+
+```typescript
+import { makeProdutoController } from "@main/composer";
+// ...
+const produtoController = makeProdutoController();
+app.post("/produtos", produtoController.createProduto.bind(produtoController));
+```
+
+### 9. Rode a aplicação
+
+- `npm run dev` para desenvolvimento
+- `npm run build && npm start` para produção
+- `docker-compose up --build` para ambiente Docker
+
+Pronto! Basta repetir o processo para cada nova entidade/caso de uso.
+
+---
+
+> Dúvidas? Veja os exemplos no código ou abra uma issue!
 
 ---
 
