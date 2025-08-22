@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
 import { createApp } from "@main";
-import https from "https";
+import dotenv from "dotenv";
 import fs from "fs";
+import https from "https";
 import path from "path";
 
 dotenv.config();

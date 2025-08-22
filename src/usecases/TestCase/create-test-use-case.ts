@@ -1,5 +1,4 @@
-import { Test } from "@domain";
-import { TestService } from "@domain";
+import { Test, TestService } from "@domain";
 
 export class CreateTestUseCase {
   constructor(private readonly testService: TestService) {}

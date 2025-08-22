@@ -1,7 +1,6 @@
-import { TestRepositoryImpl } from "@infra";
 import { TestService } from "@domain/services/test-service";
+import { TestController, TestRepositoryImpl } from "@infra";
 import { CreateTestUseCase } from "@usecases";
-import { TestController } from "@infra";
 
 export function makeTestController() {
   const testRepository = new TestRepositoryImpl();

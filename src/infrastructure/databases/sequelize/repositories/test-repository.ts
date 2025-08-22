@@ -1,7 +1,6 @@
-import { Op } from "sequelize";
-import { Test } from "@domain";
-import { TestRepository } from "@domain";
+import { Test, TestRepository } from "@domain";
 import { TestModel } from "@infra";
+import { Op } from "sequelize";
 
 export class TestRepositoryImpl implements TestRepository {
   async create(test: Test): Promise<Test> {

@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
 import logger from "@infra/logger";
+import { NextFunction, Request, Response } from "express";
 
 // Erros customizados
 export class BadRequestError extends Error {
