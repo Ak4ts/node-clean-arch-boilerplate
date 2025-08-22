@@ -4,7 +4,7 @@ import { Op } from "sequelize";
 
 export class TestRepositoryImpl implements TestRepository {
   async create(test: Test): Promise<Test> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const testModel = await TestModel.create(test as any);
     return {
       id: testModel.id,
