@@ -55,7 +55,6 @@
         "useYield": "error"
       },
       "style": {
-        "noCommonJs": "error",
         "noNamespace": "error",
         "useArrayLiterals": "error",
         "useAsConstAssertion": "error",
