@@ -10,8 +10,8 @@
     "start": "node dist/server.js",
     "migrate": "sequelize db:migrate --config config/config.cjs",
     "generate-migration": "npx sequelize-cli migration:generate --name",
-    "lint": "eslint . --ext .ts",
-    "format": "prettier --write ."
+    "lint": "biome lint --write",
+    "format": "biome format --write"
   },
   "keywords": [],
   "author": "Ak4ts",
