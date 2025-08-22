@@ -1,6 +1,6 @@
-import { BadRequestError } from "@infra/express/middlewares/error-handler";
 import { Test } from "@domain/models/test-model";
 import { TestRepository } from "@domain/repositories/test-repository";
+import { BadRequestError } from "@infra/express/middlewares/error-handler";
 
 export class TestService {
   constructor(private readonly testRepository: TestRepository) {}

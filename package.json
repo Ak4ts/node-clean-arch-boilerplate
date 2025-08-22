@@ -10,8 +10,8 @@
     "start": "node dist/server.js",
     "migrate": "sequelize db:migrate --config config/config.cjs",
     "generate-migration": "npx sequelize-cli migration:generate --name",
-    "lint": "eslint . --ext .ts",
-    "format": "prettier --write ."
+    "lint": "biome lint --write",
+    "format": "biome format --write"
   },
   "keywords": [],
   "author": "Ak4ts",
@@ -26,14 +26,9 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
     "@types/body-parser": "^1.19.6",
     "@types/express": "^5.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.34.0",
-    "@typescript-eslint/parser": "^8.34.0",
-    "eslint": "^9.29.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.4.1",
-    "prettier": "^3.5.3",
     "sequelize-cli": "^6.6.3",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.0.0",

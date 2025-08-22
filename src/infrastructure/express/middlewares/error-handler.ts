@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
 import logger from "@infra/logger";
+import { NextFunction, Request, Response } from "express";
 
 // Erros customizados
 export class BadRequestError extends Error {
@@ -42,7 +42,6 @@ type CustomError =
   | InternalServerError
   | Error;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function errorHandler(err: CustomError, req: Request, res: Response, _next: NextFunction) {
   let status = 500;
   let message = "Internal server error";
@@ -53,7 +52,7 @@ export function errorHandler(err: CustomError, req: Request, res: Response, _nex
     err instanceof NotFoundError ||
     err instanceof InternalServerError
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     status = (err as any).status;
     message = err.message;
   }

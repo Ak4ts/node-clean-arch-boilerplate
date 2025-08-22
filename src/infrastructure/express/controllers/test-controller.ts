@@ -1,6 +1,6 @@
 import { NotFoundError } from "@infra/express/middlewares/error-handler";
-import { Request, Response } from "express";
 import { CreateTestUseCase } from "@usecases";
+import { Request, Response } from "express";
 
 export class TestController {
   constructor(private readonly createTestUseCase: CreateTestUseCase) {}
