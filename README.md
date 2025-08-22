@@ -13,7 +13,7 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 - **HTTPS Ready**: Suporte nativo a HTTPS com certificados customizáveis.
 - **Logger Winston**: Logging centralizado, com logs em arquivo e console.
 - **Middleware de Erro Robusto**: Tratamento customizado para status HTTP (200, 201, 400, 401, 404, 500) e logging de erros.
-- **ESLint, Prettier e EditorConfig**: Padronização de código garantida.
+- **Biome e EditorConfig**: Padronização de código garantida.
 - **Scripts de build, dev, lint, format, migrate**: Prontos para uso.
 - **Exemplo de controller, caso de uso e service**.
 - **.env.example**: Facilita o setup do ambiente.
@@ -34,8 +34,7 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 ├── docker-compose.yml  # Orquestração de containers
 ├── .env.example        # Exemplo de variáveis de ambiente
 ├── .editorconfig       # Padrão de editor
-├── .eslintrc.json      # Configuração do ESLint
-├── .prettierrc         # Configuração do Prettier
+├── biome.json          # Configuração do Biome
 ```
 
 ## Como usar
