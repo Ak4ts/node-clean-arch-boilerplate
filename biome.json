@@ -14,7 +14,11 @@
 		"bracketSpacing": true,
 		"expand": "auto",
 		"useEditorconfig": true,
-		"includes": ["**", "!**/node_modules", "!**/dist", "!**/build", "!**/*.cjs"]
+		"includes": [
+			"./src/**",
+			"./models/**",
+			"./migrations/**"
+		]
 	},
 	"linter": {
 		"enabled": true,
@@ -99,16 +103,9 @@
 			}
 		},
 		"includes": [
-			"**",
-			"!**/node_modules",
-			"!**/dist",
-			"!**/build",
-			"!**/*.cjs",
-			"**",
-			"!**/node_modules",
-			"!**/dist",
-			"!**/build",
-			"!**/*.cjs"
+			"./src/**",
+			"./models/**",
+			"./migrations/**"
 		]
 	},
 	"javascript": {
