@@ -15,6 +15,7 @@ services:
       - DB_NAME=playground
     depends_on:
       - db
+      - pg
     command: sh -c "npx sequelize-cli db:migrate --config config/config.cjs && npm run build && npm start"
   db:
     image: mysql:8.4
@@ -27,5 +28,17 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  pg:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: playground
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
 volumes:
   db_data:
+  pg_data:
