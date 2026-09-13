@@ -7,8 +7,6 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "baseUrl": "src",
@@ -23,6 +21,6 @@
       "@main/*": ["main/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "vitest.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
