@@ -4,6 +4,8 @@ import { sequelize } from "../connection";
 export class TestModel extends Model {
   public id!: number;
   public name!: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 TestModel.init(

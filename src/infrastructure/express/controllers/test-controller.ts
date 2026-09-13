@@ -1,43 +1,33 @@
-import { NotFoundError } from "@domain/errors";
-import { Request, Response } from "express";
-import { CreateTestUseCase } from "@usecases";
+import { NextFunction, Request, Response } from "express";
+import { BadRequestError } from "@domain/errors";
+import { CreateTestUseCase, GetTestByIdUseCase } from "@usecases";
 
 export class TestController {
-  constructor(private readonly createTestUseCase: CreateTestUseCase) {}
+  constructor(
+    private readonly createTestUseCase: CreateTestUseCase,
+    private readonly getTestByIdUseCase: GetTestByIdUseCase,
+  ) {}
 
-  async createTest(req: Request, res: Response): Promise<void> {
+  async createTest(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { name } = req.body;
-      const test = await this.createTestUseCase.execute(name);
+      const test = await this.createTestUseCase.execute({ name });
       res.status(201).json(test);
     } catch (error) {
-      if (error instanceof Error) {
-        if (error.name === "BadRequestError") {
-          res.status(400).json({ message: error.message });
-          return;
-        }
-      }
-      console.error(error);
-      res.status(500).json({ message: "Error creating test" });
+      next(error);
     }
   }
 
-  async getTestById(req: Request, res: Response): Promise<void> {
+  async getTestById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
-      const test = await this.createTestUseCase.execute(id);
-      if (!test) {
-        throw new NotFoundError(`Test with ID ${id} not found`);
-      } else {
-        res.status(200).json(test);
+      const id = Number(req.params.id);
+      if (!Number.isInteger(id) || id < 1) {
+        throw new BadRequestError(`"${req.params.id}" is not a valid test id`);
       }
+      const test = await this.getTestByIdUseCase.execute(id);
+      res.status(200).json(test);
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        res.status(404).json({ message: error.message });
-        return;
-      }
-      console.error(error);
-      res.status(500).json({ message: "Error getting test" });
+      next(error);
     }
   }
 }
