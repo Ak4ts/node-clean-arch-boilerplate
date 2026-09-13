@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "@infra";
+import { sequelize } from "../connection";
 
 export class TestModel extends Model {
   public id!: number;
