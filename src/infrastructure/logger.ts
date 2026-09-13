@@ -1,7 +1,12 @@
+import fs from "fs";
 import { createLogger, format, transports } from "winston";
 import path from "path";
 
 const logDir = path.resolve(process.cwd(), "logs");
+
+// The File transports do not create their target directory, and fail
+// asynchronously when it is missing -- which on a fresh clone is always.
+fs.mkdirSync(logDir, { recursive: true });
 
 const logger = createLogger({
   level: "info",

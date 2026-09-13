@@ -1,34 +1,53 @@
 import dotenv from "dotenv";
-import { createApp } from "@main";
-import https from "https";
 import fs from "fs";
-import path from "path";
+import http from "http";
+import https from "https";
+import { createApp } from "@main";
+import logger from "@infra/logger";
 
 dotenv.config();
 
-const certPath = path.resolve("certs/cert.crt");
-const keyPath = path.resolve("certs/cert.key");
-
-const options = {
-  key: fs.readFileSync(keyPath),
-  cert: fs.readFileSync(certPath),
-};
+const port = Number(process.env.PORT ?? 5000);
+const certPath = process.env.TLS_CERT_PATH;
+const keyPath = process.env.TLS_KEY_PATH;
 
 process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
+  logger.error({ message: `Uncaught exception: ${err.message}`, stack: err.stack });
   process.exit(1);
 });
 
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+process.on("unhandledRejection", (reason) => {
+  logger.error({
+    message: `Unhandled rejection: ${reason instanceof Error ? reason.message : String(reason)}`,
+    stack: reason instanceof Error ? reason.stack : undefined,
+  });
   process.exit(1);
 });
+
+/**
+ * HTTPS is opt-in: set TLS_CERT_PATH and TLS_KEY_PATH to serve TLS directly.
+ * Without them the app speaks plain HTTP and expects TLS to be terminated
+ * upstream, which is what a fresh clone and most deployments want.
+ */
+function createServer(app: http.RequestListener) {
+  if (!certPath || !keyPath) {
+    return http.createServer(app);
+  }
+  return https.createServer(
+    { key: fs.readFileSync(keyPath), cert: fs.readFileSync(certPath) },
+    app,
+  );
+}
 
 try {
-  https.createServer(options, createApp()).listen(process.env.PORT || 5000, () => {
-    console.log("HTTPS server is running on https://localhost:" + (process.env.PORT || 5000));
+  const scheme = certPath && keyPath ? "https" : "http";
+  createServer(createApp()).listen(port, () => {
+    logger.info(`Server listening on ${scheme}://localhost:${port}`);
   });
 } catch (error) {
-  console.error("Error starting the HTTPS server:", error);
+  logger.error({
+    message: `Failed to start the server: ${error instanceof Error ? error.message : String(error)}`,
+    stack: error instanceof Error ? error.stack : undefined,
+  });
   process.exit(1);
 }

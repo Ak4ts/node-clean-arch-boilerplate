@@ -10,7 +10,7 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 - **Sequelize ORM**: Integração pronta para MySQL, com suporte a migrações e models.
 - **Migrations Automatizadas**: Migrações executadas automaticamente no Docker e via script.
 - **Docker & Docker Compose**: Ambiente pronto para dev e produção, incluindo banco MySQL e scripts de inicialização.
-- **HTTPS Ready**: Suporte nativo a HTTPS com certificados customizáveis.
+- **HTTPS opcional**: HTTP por padrão; defina `TLS_CERT_PATH` e `TLS_KEY_PATH` para servir TLS diretamente.
 - **Logger Winston**: Logging centralizado, com logs em arquivo e console.
 - **Middleware de Erro Robusto**: Tratamento customizado para status HTTP (200, 201, 400, 401, 404, 500) e logging de erros.
 - **ESLint, Prettier e EditorConfig**: Padronização de código garantida.
@@ -29,12 +29,12 @@ Este projeto é um template de API Node.js com TypeScript, Sequelize, Docker, Cl
 │   └── server.ts       # Bootstrap do servidor
 ├── config/             # Configurações do Sequelize CLI
 ├── migrations/         # Migrações do banco de dados
-├── certs/              # Certificados SSL para HTTPS
+├── certs/              # Certificados TLS locais (gerados na máquina, fora do Git)
 ├── Dockerfile          # Build da aplicação
 ├── docker-compose.yml  # Orquestração de containers
 ├── .env.example        # Exemplo de variáveis de ambiente
 ├── .editorconfig       # Padrão de editor
-├── .eslintrc.json      # Configuração do ESLint
+├── eslint.config.mjs    # Configuração do ESLint
 ├── .prettierrc         # Configuração do Prettier
 ```
 
@@ -76,6 +76,22 @@ npm run migrate
 ```sh
 npm run generate-migration -- nome-da-migracao
 ```
+
+### 7. HTTPS local (opcional)
+
+O servidor responde em HTTP por padrão. Para servir TLS diretamente, gere um par self-signed e aponte as duas variáveis de ambiente para ele:
+
+```sh
+mkdir -p certs
+openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
+  -keyout certs/cert.key -out certs/cert.crt -subj "/CN=localhost"
+
+export TLS_CERT_PATH=certs/cert.crt
+export TLS_KEY_PATH=certs/cert.key
+npm run dev
+```
+
+O diretório `certs/` é ignorado pelo Git: chaves privadas nunca devem ser versionadas.
 
 ## Exemplo de Resposta de Erro
 
