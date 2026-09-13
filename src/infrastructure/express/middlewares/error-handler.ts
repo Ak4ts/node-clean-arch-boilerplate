@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 import { BadRequestError, NotFoundError } from "@domain/errors";
 import logger from "@infra/logger";
 
@@ -34,17 +35,28 @@ export class InternalServerError extends HttpError {
  * reach the client.
  */
 function statusFor(err: Error): number | null {
+  if (err instanceof ZodError) return 400;
   if (err instanceof HttpError) return err.status;
   if (err instanceof BadRequestError) return 400;
   if (err instanceof NotFoundError) return 404;
   return null;
 }
 
+/** Field-level detail for a rejected body: which field, and what was wrong. */
+function issuesFor(err: ZodError) {
+  return err.issues.map((issue) => ({
+    field: issue.path.join(".") || "(body)",
+    message: issue.message,
+  }));
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction) {
   const mapped = statusFor(err);
   const status = mapped ?? 500;
-  const message = mapped === null ? "Internal server error" : err.message;
+  const isZod = err instanceof ZodError;
+  const message =
+    mapped === null ? "Internal server error" : isZod ? "Invalid request" : err.message;
 
   logger.error({
     message: err.message,
@@ -57,5 +69,6 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   res.status(status).json({
     status,
     message,
+    ...(isZod ? { issues: issuesFor(err) } : {}),
   });
 }

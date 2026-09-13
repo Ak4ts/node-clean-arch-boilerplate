@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { BadRequestError } from "@domain/errors";
 import { CreateTestUseCase, GetTestByIdUseCase } from "@usecases";
+import { createTestSchema } from "@infra/express/validators/test-validator";
 
 export class TestController {
   constructor(
@@ -10,8 +11,8 @@ export class TestController {
 
   async createTest(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { name } = req.body;
-      const test = await this.createTestUseCase.execute({ name });
+      const input = createTestSchema.parse(req.body);
+      const test = await this.createTestUseCase.execute(input);
       res.status(201).json(test);
     } catch (error) {
       next(error);

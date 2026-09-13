@@ -69,6 +69,18 @@ Erro — sempre o mesmo formato, venha de onde vier:
 }
 ```
 
+Corpo inválido em `POST /tests` é recusado antes de chegar ao caso de uso, com detalhe por campo:
+
+```json
+{
+  "status": 400,
+  "message": "Invalid request",
+  "issues": [{ "field": "name", "message": "name must not be empty" }]
+}
+```
+
+O `name` é aparado antes de validar — `"  alpha  "` e `"alpha"` são o mesmo nome — e chaves desconhecidas no corpo são ignoradas, não recusadas.
+
 Erros não reconhecidos viram `500` com a mensagem genérica `"Internal server error"`; a causa real vai para o log, nunca para a resposta.
 
 ## Testes

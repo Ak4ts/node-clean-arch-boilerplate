@@ -24,7 +24,8 @@
     "express": "^5.1.0",
     "mysql2": "^3.14.1",
     "sequelize": "^6.37.7",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "zod": "^4.6.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
