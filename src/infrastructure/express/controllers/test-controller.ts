@@ -1,4 +1,4 @@
-import { NotFoundError } from "@infra/express/middlewares/error-handler";
+import { NotFoundError } from "@domain/errors";
 import { Request, Response } from "express";
 import { CreateTestUseCase } from "@usecases";
 

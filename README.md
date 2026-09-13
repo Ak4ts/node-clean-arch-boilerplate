@@ -82,7 +82,7 @@ npm run generate-migration -- nome-da-migracao
 ```json
 {
   "status": 400,
-  "message": "Test already exists with that email address"
+  "message": "A test named \"alpha\" already exists"
 }
 ```
 
