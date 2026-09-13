@@ -17,7 +17,15 @@ const compat = new FlatCompat({
 });
 
 export default defineConfig([
-  globalIgnores(["**/node_modules", "**/dist", "**/build", "**/*.cjs"]),
+  globalIgnores([
+    "**/node_modules",
+    "**/dist",
+    "**/build",
+    "**/coverage",
+    "**/logs",
+    "**/.remember",
+    "**/*.cjs",
+  ]),
   {
     extends: compat.extends(
       "eslint:recommended",
@@ -33,7 +41,7 @@ export default defineConfig([
         ...globals.node,
       },
       parser: tsParser,
-      ecmaVersion: 5,
+      ecmaVersion: "latest",
       sourceType: "module",
     },
     rules: {
