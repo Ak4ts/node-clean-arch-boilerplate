@@ -18,12 +18,13 @@ export default defineConfig({
       // holds behaviour a test could pin.
       exclude: ["src/**/index.ts", "src/server.ts", "src/**/*.test.ts"],
       // Ratchet: raise these as suites land, never lower them to make a build
-      // pass.
+      // pass. The uncovered remainder is the MySQL branch of connection.ts and
+      // the file transports in logger.ts, neither of which runs under test.
       thresholds: {
-        lines: 55,
-        functions: 65,
-        branches: 70,
-        statements: 55,
+        lines: 90,
+        functions: 100,
+        branches: 80,
+        statements: 90,
       },
     },
   },
