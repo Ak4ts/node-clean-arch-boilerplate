@@ -1,5 +1,2 @@
-import { createApp } from "./app";
-
 export * from "./controllers";
-
-export { createApp };
+export * from "./middlewares/error-handler";
