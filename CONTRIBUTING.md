@@ -33,4 +33,4 @@ São exatamente os quatro comandos que a CI roda, em Node 20 e 24. Se passam loc
 - Persistência: teste do repositório contra o sqlite em memória — sem precisar de MySQL.
 - Rota: teste de API com supertest.
 
-A cobertura tem mínimo obrigatório em `vitest.config.ts`. Quando a cobertura sobe, suba o mínimo junto. Nunca baixe o mínimo para fazer um build passar.
+A cobertura tem mínimo obrigatório em `vitest.config.mts`. Quando a cobertura sobe, suba o mínimo junto. Nunca baixe o mínimo para fazer um build passar.

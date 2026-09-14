@@ -92,7 +92,7 @@ npm run test:watch
 
 A suíte roda contra **sqlite em memória** (`NODE_ENV=test` em `src/infrastructure/databases/sequelize/connection.ts`), então um clone novo consegue rodar os testes antes mesmo de ter um banco configurado. `test/setup.ts` recria o schema antes de cada teste.
 
-Cobertura tem mínimo obrigatório configurado em `vitest.config.ts`. Os números sobem conforme novas suítes entram — não se abaixa o limite para o build passar.
+Cobertura tem mínimo obrigatório configurado em `vitest.config.mts`. Os números sobem conforme novas suítes entram — não se abaixa o limite para o build passar.
 
 ## Scripts
 
@@ -145,7 +145,7 @@ O diretório `certs/` é ignorado pelo Git. Chave privada não se versiona.
 ├── docker-compose.yml
 ```
 
-Os aliases `@domain`, `@usecases`, `@infra` e `@main` estão em `tsconfig.json` e valem também nos testes, via `vite-tsconfig-paths`.
+Os aliases `@domain`, `@usecases`, `@infra` e `@main` estão em `tsconfig.json` e valem também nos testes, que os resolvem nativamente pelo Vite.
 
 ---
 

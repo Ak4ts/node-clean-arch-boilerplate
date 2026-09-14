@@ -1,8 +1,12 @@
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  // Vite resolves the @domain/@infra/@usecases/@main aliases straight from
+  // tsconfig.json. This replaced the vite-tsconfig-paths plugin, which Vite
+  // now reports as redundant.
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
     environment: "node",
     include: ["src/**/*.test.ts", "test/**/*.test.ts"],

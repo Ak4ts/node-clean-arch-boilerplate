@@ -5,7 +5,7 @@
 ### Added
 
 - Suíte de testes com Vitest rodando sobre sqlite em memória: `npm test` não precisa de MySQL
-- Cobertura com mínimo obrigatório em `vitest.config.ts`
+- Cobertura com mínimo obrigatório em `vitest.config.mts`
 - CI no GitHub Actions: `lint`, `typecheck`, `build` e `test` em Node 20 e 24 a cada push
 - Dependabot semanal para npm e GitHub Actions
 - Validação de corpo de requisição com zod em `@infra/express/validators`, com erro por campo

@@ -51,7 +51,7 @@ export default defineConfig([
   },
   // Bloco específico para arquivos TypeScript
   {
-    files: ["**/*.ts", "**/*.tsx"],
+    files: ["**/*.ts", "**/*.tsx", "**/*.mts"],
     languageOptions: {
       parserOptions: {
         project: "./tsconfig.json",
