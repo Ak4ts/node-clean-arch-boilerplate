@@ -4,7 +4,7 @@ FROM node:24
 WORKDIR /app
 
 COPY package*.json ./
-COPY tsconfig.json ./
+COPY tsconfig*.json ./
 RUN npm ci
 
 COPY ./src ./src
