@@ -3,8 +3,6 @@ services:
     build: .
     ports:
       - "5000:5000"
-    volumes:
-      - .:/app
     environment:
       - NODE_ENV=development
       - PORT=5000
@@ -14,8 +12,9 @@ services:
       - DB_PASSWORD=example
       - DB_NAME=playground
     depends_on:
-      - db
-    command: sh -c "npx sequelize-cli db:migrate --config config/config.cjs && npm run build && npm start"
+      db:
+        condition: service_healthy
+    command: sh -c "npx sequelize-cli db:migrate --config config/config.cjs && npm start"
   db:
     image: mysql:8.4
     restart: always
@@ -24,8 +23,13 @@ services:
       MYSQL_DATABASE: playground
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pexample"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
     volumes:
       - db_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   db_data:

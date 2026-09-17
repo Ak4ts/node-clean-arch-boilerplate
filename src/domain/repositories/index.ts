@@ -1,3 +1,1 @@
-import { TestRepository } from "@domain/repositories/test-repository";
-
-export { TestRepository };
+export * from "./test-repository";

@@ -4,13 +4,15 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
     "dev": "ts-node -r tsconfig-paths/register src/server.ts",
-    "build": "tsc && tsc-alias",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "node dist/server.js",
     "migrate": "sequelize db:migrate --config config/config.cjs",
     "generate-migration": "npx sequelize-cli migration:generate --name",
-    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "format": "prettier --write ."
   },
   "keywords": [],
@@ -22,21 +24,30 @@
     "express": "^5.1.0",
     "mysql2": "^3.14.1",
     "sequelize": "^6.37.7",
-    "typescript": "^5.8.3",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "zod": "^4.6.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.29.0",
     "@types/body-parser": "^1.19.6",
     "@types/express": "^5.0.3",
+    "@types/supertest": "^7.2.1",
     "@typescript-eslint/eslint-plugin": "^8.34.0",
     "@typescript-eslint/parser": "^8.34.0",
+    "@vitest/coverage-v8": "^5.0.0",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "globals": "^14.0.0",
     "prettier": "^3.5.3",
     "sequelize-cli": "^6.6.3",
+    "sqlite3": "^6.0.1",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.0.0",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3",
+    "vitest": "^5.0.0"
   }
 }

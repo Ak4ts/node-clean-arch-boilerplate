@@ -1,16 +1,24 @@
 import { Op } from "sequelize";
-import { Test } from "@domain";
-import { TestRepository } from "@domain";
-import { TestModel } from "@infra";
+import { NewTest, Test, TestRepository } from "@domain";
+import { TestModel } from "../models/test-model";
+
+function toTest(model: TestModel): Test {
+  return {
+    id: model.id,
+    name: model.name,
+    createdAt: model.createdAt,
+    updatedAt: model.updatedAt,
+  };
+}
 
 export class TestRepositoryImpl implements TestRepository {
-  async create(test: Test): Promise<Test> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const testModel = await TestModel.create(test as any);
-    return {
-      id: testModel.id,
-      name: testModel.name,
-    };
+  async create(test: NewTest): Promise<Test> {
+    return toTest(await TestModel.create({ name: test.name }));
+  }
+
+  async getById(id: number): Promise<Test | null> {
+    const testModel = await TestModel.findByPk(id);
+    return testModel ? toTest(testModel) : null;
   }
 
   async getByName(name: string): Promise<Test | null> {
@@ -21,12 +29,6 @@ export class TestRepositoryImpl implements TestRepository {
         },
       },
     });
-    if (!testModel) {
-      return null;
-    }
-    return {
-      id: testModel.id,
-      name: testModel.name,
-    };
+    return testModel ? toTest(testModel) : null;
   }
 }

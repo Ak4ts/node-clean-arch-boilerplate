@@ -1,28 +1,31 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    // node16 rather than commonjs/Node: TypeScript 7 removed the node10
+    // resolver, and moduleResolution node16 requires module node16 (TS5110).
+    // With no "type": "module" in package.json this still emits CommonJS, so
+    // dist/ is byte-for-byte what it was.
+    "module": "node16",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "baseUrl": "src",
+    // No baseUrl: it was removed in TypeScript 7. Path targets are now
+    // relative to this file instead of to baseUrl.
     "paths": {
-      "@infra": ["infrastructure/index"],
-      "@domain": ["domain/index"],
-      "@usecases": ["usecases/index"],
-      "@main": ["main/index"],
-      "@infra/*": ["infrastructure/*"],
-      "@domain/*": ["domain/*"],
-      "@usecases/*": ["usecases/*"],
-      "@main/*": ["main/*"]
+      "@infra": ["./src/infrastructure/index"],
+      "@domain": ["./src/domain/index"],
+      "@usecases": ["./src/usecases/index"],
+      "@main": ["./src/main/index"],
+      "@infra/*": ["./src/infrastructure/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@usecases/*": ["./src/usecases/*"],
+      "@main/*": ["./src/main/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "vitest.config.mts"],
   "exclude": ["node_modules", "dist"]
 }
