@@ -22,7 +22,7 @@
     "body-parser": "^2.2.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mysql2": "^3.14.1",
+    "mysql2": "^3.24.6",
     "sequelize": "^6.37.7",
     "winston": "^3.17.0",
     "zod": "^4.6.4"
